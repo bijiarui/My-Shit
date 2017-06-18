@@ -16,17 +16,17 @@ bool RankListLayer::init()
 
 	if (!UD_getBool("isExist", false)) {
 		UD_setBool("isExist", true);
-		for (auto iter = m_Player.begin(); iter != m_Player.end() -1;++iter) {
-			UD_setString(StringUtils::format("p%d_name", (iter._Idx+1)).c_str(), "name");
-			UD_setInt(StringUtils::format("p%d_score", (iter._Idx + 1)).c_str(), 0);
-			iter->name = "name";
-			iter->score = 0;
+		for (int i = 1; i <= max_range; i++) {
+			UD_setString(StringUtils::format("p%d_name", i).c_str(), "name");
+			UD_setInt(StringUtils::format("p%d_score", i).c_str(), 0);
+			m_Player[i - 1].name = "name";
+			m_Player[i - 1].score = 0;
 		}
 	}
 	else {
-		for (auto iter = m_Player.begin(); iter != m_Player.end() - 1; ++iter) {
-			iter->name = UD_getString(StringUtils::format("p%d_name", (iter._Idx + 1)).c_str());
-			iter->score = UD_getInt(StringUtils::format("p%d_score", (iter._Idx + 1)).c_str());
+		for (int i = 1; i <= max_range; i++) {
+			m_Player[i - 1].name = UD_getString(StringUtils::format("p%d_name", i).c_str());
+			m_Player[i - 1].score = UD_getInt(StringUtils::format("p%d_score", i).c_str());
 		}
 	}
 

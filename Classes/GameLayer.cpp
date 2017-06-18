@@ -238,7 +238,7 @@ void GameLayer::initPartical(int r)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	m_Particle = ParticleSystemQuad::create("particles/2444.plist");
-	m_Particle->setPosition(visibleSize.width*0.438, visibleSize.height *0.93 - r * 16);
+	m_Particle->setPosition(visibleSize.width*0.441, visibleSize.height *0.93 - r * 16);
 	this->addChild(m_Particle,5);
 
 	this->scheduleOnce(schedule_selector(GameLayer::deletePartical), m_Particle->getLife() + 1.0f);
@@ -253,7 +253,7 @@ void GameLayer::initCombo(char* s)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	m_Combo = ParticleSystemQuad::create(s);
-	m_Combo->setPosition(visibleSize.width*0.438, visibleSize.height *0.5);
+	m_Combo->setPosition(visibleSize.width*0.443, visibleSize.height *0.5);
 	this->addChild(m_Combo, 6);
 	this->scheduleOnce(schedule_selector(GameLayer::deleteCombo), m_Combo->getLife() + 1.0f);
 
