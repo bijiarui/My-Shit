@@ -81,7 +81,7 @@ void GameLayer::fall()
 			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("sounds/clean.mp3");
 			m_iScore += 100;
 			updateScore(m_iScore);
-			for(int i=0;i<4;++i){
+			for(int i=0;i<3;++i){
 				if (m_iScore >= UserDefault::sharedUserDefault()->getIntegerForKey(StringUtils::format("highScore%d", i).c_str()) && UserDefault::sharedUserDefault()->getBoolForKey(StringUtils::format("is_rhythm%d", i).c_str())
 					&& UserDefault::sharedUserDefault()->getIntegerForKey(StringUtils::format("highScore%d", i).c_str()) != 0 && m_bCan ) {
 					auto plist = ParticleSystemQuad::create("particles/highScore.plist");
@@ -142,7 +142,7 @@ void GameLayer::throwDown()
 			++combo;
 			m_iScore += 100;
 			updateScore(m_iScore);
-			for (int i = 0; i < 4; ++i) {
+			for (int i = 0; i < 3; ++i) {
 				if (m_iScore >= UserDefault::sharedUserDefault()->getIntegerForKey(StringUtils::format("highScore%d", i).c_str()) && UserDefault::sharedUserDefault()->getBoolForKey(StringUtils::format("is_rhythm%d", i).c_str())
 					&& UserDefault::sharedUserDefault()->getIntegerForKey(StringUtils::format("highScore%d", i).c_str()) != 0 && m_bCan) {
 					auto plist = ParticleSystemQuad::create("particles/highScore.plist");
@@ -187,9 +187,6 @@ float GameLayer::level()
 	}
 	else if (UserDefault::sharedUserDefault()->getBoolForKey("is_rhythm2")) {
 		return 0.48;
-	}
-	else if (UserDefault::sharedUserDefault()->getBoolForKey("is_rhythm3")) {
-		return 0.5;
 	}
 	else {
 		std::string level = UserDefault::sharedUserDefault()->getStringForKey("Level");

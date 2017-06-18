@@ -20,6 +20,8 @@ public:
 	BrickType getNextBrickType() { return m_nextBrickType; }
 	//获得指定位置值
 	BrickCellValue getBrickValue(int r, int c);
+	//获得当前方块信息
+	BrickCellValue getCurrentBrickValue(int r, int c);
 	//获得当前位置
 	int getPosRowOfCurrentBrick() { return m_iPosRow; }
 	int getPosColOfCurrentBrick() { return m_iPosCol; }

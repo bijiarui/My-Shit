@@ -8,13 +8,11 @@ bool ClassicGameOverLayer::init()
 	addChild(background, 0);
 	textEdit = CCTextFieldTTF::textFieldWithPlaceHolder("Please input your name:","Arial", 24);  
 	textEdit->setPosition(Vec2(visibleSize.width/2, visibleSize.height/3 ));  
-	//textEdit->setColorSpaceHolder(Color3B::BLUE);
 	this->addChild(textEdit);
 	setTouchMode(kCCTouchesOneByOne);
 	setTouchEnabled(true);
 
 	auto * label = Label::createWithTTF("Your score is", "fonts/Marker Felt.ttf", 23);
-	//label->setColor(Color3B(255, 0, 0));
 	label->setPosition(visibleSize.width / 2, visibleSize.height * 2/3);
 	this->addChild(label);
    
@@ -22,25 +20,25 @@ bool ClassicGameOverLayer::init()
 	CCString* strScore = CCString::createWithFormat("%d", m_iScore);
 	scoreItem = LabelTTF::create("0", "fonts/Marker Felt.ttf", 40);
 	scoreItem->setString(strScore->_string.c_str());
-	//scoreItem->setColor(ccc3(146, 220, 147));
 	scoreItem->setAnchorPoint(ccp(0, 0.5));
 	scoreItem->setPosition(ccp(visibleSize.width*0.5, visibleSize.height*0.5));
 	this->addChild(scoreItem);
 
 	if (!UD_getBool("isExist", false)) {
 		UD_setBool("isExist", true);
-		for (int i = 1; i <= max_range; ++i) {
-			UD_setString(StringUtils::format("p%d_name", i).c_str(), "name");
-			UD_setInt(StringUtils::format("p%d_score", i).c_str(), 0);
-			m_Player[i - 1].name = "name";
-			m_Player[i - 1].score = 0;
+		for (auto iter = m_Player.begin(); iter!=m_Player.end()-1; ++iter) {
+			int i = 1;
+			UD_setString(StringUtils::format("p%d_name", (iter._Idx + 1)).c_str(), "name");
+			UD_setInt(StringUtils::format("p%d_score", (iter._Idx + 1)).c_str(), 0);
+			iter->name = "name";
+			iter->score = 0;
+			++i;
 		}
-
 	}
 	else {
-		for (int i = 1; i <= max_range; ++i) {
-			m_Player[i - 1].name = UD_getString(StringUtils::format("p%d_name", i).c_str());
-			m_Player[i - 1].score = UD_getInt(StringUtils::format("p%d_score", i).c_str());
+		for (auto iter = m_Player.begin(); iter != m_Player.end() - 1; ++iter) {
+			iter->name = UD_getString(StringUtils::format("p%d_name", (iter._Idx + 1)).c_str());
+			iter->score = UD_getInt(StringUtils::format("p%d_score", (iter._Idx + 1)).c_str());
 		}
 	}
 
@@ -90,29 +88,29 @@ void ClassicGameOverLayer::menuCallBack(Ref * pSender)
 		m_Player[max_range].score = m_iScore;
 
 		bool isExist = false;
-		for (int i = 0; i < max_range; ++i) {
-			if (m_Player[i].name == m_Player[max_range].name) {
-				m_Player[i].score = m_Player[i].score>m_Player[max_range].score ? m_Player[i].score : m_Player[max_range].score;
+		for (auto iter = m_Player.begin(); iter != m_Player.end() - 1;++iter) {
+			if (iter->name == m_Player[max_range].name) {
+				iter->score = iter->score>m_Player[max_range].score ? iter->score : m_Player[max_range].score;
 				isExist = true;
 				break;
 			}
 		}
 
 		if (!isExist) {
-			for (int i = 0; i < max_range; ++i) {
-				for (int j = max_range - i; j > 0; j--) {
-					if (m_Player[j].score > m_Player[j - 1].score) {
+			for (auto iteri = m_Player.begin(); iteri != m_Player.end() - 1;++iteri) {
+				for (auto iterj = (m_Player.end() - iteri._Idx-1); iterj != m_Player.begin();--iterj) {
+					if (iterj->score > (iterj-1)->score) {
 						Player temp;
-						temp = m_Player[j];
-						m_Player[j] = m_Player[j - 1];
-						m_Player[j - 1] = temp;
+						temp = (*iterj);
+						(*iterj) = (*(iterj-1));
+						(*(iterj - 1)) = temp;
 					}
 				}
 			}
 		}
-		for (int i = 1; i <= max_range; ++i) {
-			UD_setString(StringUtils::format("p%d_name", i).c_str(), m_Player[i - 1].name);
-			UD_setInt(StringUtils::format("p%d_score", i).c_str(), m_Player[i - 1].score);
+		for (auto iter = m_Player.begin(); iter != m_Player.end() - 1; ++iter) {
+			UD_setString(StringUtils::format("p%d_name", (iter._Idx + 1)).c_str(), iter->name);
+			UD_setInt(StringUtils::format("p%d_score", (iter._Idx + 1)).c_str(), iter->score);
 		}
 	}
 			  break;

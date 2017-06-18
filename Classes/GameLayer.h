@@ -28,13 +28,13 @@ public:
 	void fall();
 	void throwDown();
 	void startGame();
-	float level();
-	void updateScore(int score);
 	void setDelegate(GameLayerDelegate *delegate) { m_delegate = delegate; }
 	int getScore() { return m_iScore; }
 	bool getGameCondition() { return m_bGameRun; }
 
 private:
+	float level();
+	void updateScore(int score);
 	void updateBrickMatrix();
 	void updateNextBrick();
 	void initPartical(int r);
@@ -54,6 +54,7 @@ private:
 	LabelTTF* scoreItem;
 	ParticleSystem *m_Particle;
 	ParticleSystem *m_Combo;
+	ParticleSystem *m_Throw;
 };
 
 #endif // !_CLASSIC_GAME_LAYER_

@@ -32,6 +32,11 @@ BrickCellValue Tetris::getBrickValue(int r, int c)
 	return BrickCellValue_NULL;
 }
 
+BrickCellValue Tetris::getCurrentBrickValue(int r, int c)
+{
+		return m_currentBrick[r][c];
+}
+
 bool Tetris::getNextValue(int r, int c)
 {
 	if (m_nextBrick[r][c] != BrickCellValue_NULL)

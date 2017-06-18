@@ -5,7 +5,7 @@ bool RhythmGameScene::init()
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("musics/rhythm0.mp3");
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("musics/rhythm1.mp3");
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("musics/rhythm2.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("musics/rhythm3.mp3");
+;
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
 	auto * background = Sprite::create("res/rhy.jpg");
@@ -40,7 +40,6 @@ bool RhythmGameScene::init()
 	music.push_back("Bad Apple!!");
 	music.push_back("The Hampster\nDance Song");
 	music.push_back("We No Speak\nAmericano");
-	music.push_back("FFF Group\nMarch");
 
 	TableView* tableView = TableView::create(this, CCSizeMake(220, 60));
 	tableView->setDirection(ScrollView::Direction::VERTICAL);
@@ -53,7 +52,6 @@ bool RhythmGameScene::init()
 	myRhythm.push_back(0.4838709677);
 	myRhythm.push_back(0.441014333);
 	myRhythm.push_back(0.48);
-	myRhythm.push_back(0.5);
 
 	return true;
 }
@@ -85,12 +83,6 @@ void RhythmGameScene::undateRhytnm(float dt)
 		scheduleOnce(schedule_selector(RhythmGameScene::canSeeTrue), 0.15f);
 		scheduleOnce(schedule_selector(RhythmGameScene::canSeeFalse), 0.40f);
 		scheduleOnce(schedule_selector(RhythmGameScene::canClickFalse), 0.43f);
-	}
-	else if (m_iMusicID == 3) {
-		scheduleOnce(schedule_selector(RhythmGameScene::canClickTrue), 0);
-		scheduleOnce(schedule_selector(RhythmGameScene::canSeeTrue), 0.1f);
-		scheduleOnce(schedule_selector(RhythmGameScene::canSeeFalse), 0.35f);
-		scheduleOnce(schedule_selector(RhythmGameScene::canClickFalse), 0.4f);
 	}
 }
 
@@ -161,7 +153,7 @@ TableViewCell * RhythmGameScene::tableCellAtIndex(TableView * table, ssize_t idx
 
 ssize_t RhythmGameScene::numberOfCellsInTableView(TableView * table)
 {
-	return 4;
+	return 3;
 }
 
 void RhythmGameScene::clickUp()
