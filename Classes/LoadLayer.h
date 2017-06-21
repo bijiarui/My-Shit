@@ -3,6 +3,7 @@
 #define _LOAD_LAYER_H_
 #include "cocos2d.h"
 #include "SceneManager.h"
+#include "SimpleAudioEngine.h"
 USING_NS_CC;
 class LoadLayer :public Layer {
 public:

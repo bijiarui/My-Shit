@@ -430,7 +430,7 @@ bool Tetris::clearOneLine(BrickCellValue *brickMatrix, int row, int column,
 		// 如果能消行，则继续看上一行
 		if (canClearLine) {
 			lineIndex = r;
-			// 从上往下赋值，内存移位处理即可
+			// 从上往下赋值，内存移位处理
 			memmove(brickMatrix + column, brickMatrix, r*column * sizeof(BrickCellValue));
 			// 第0行清空
 			for (int c = 0; c < column; c++) {

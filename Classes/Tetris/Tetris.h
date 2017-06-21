@@ -68,9 +68,9 @@ public:
 
 private:
 	//游戏区行
-	int m_iRow;
+	const int m_iRow;
 	//游戏区列
-	int m_iColumn;
+	const int m_iColumn;
 	//游戏区矩阵
 	BrickCellValue *m_brickMatrix;
 	//当前方块位置

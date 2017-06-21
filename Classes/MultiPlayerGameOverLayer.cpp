@@ -1,4 +1,5 @@
 #include "MultiPlayerGameOverLayer.h"
+#include "ListDefine.h"
 
 bool MutiPlayersGameOverLayer::init()
 {
@@ -10,8 +11,8 @@ bool MutiPlayersGameOverLayer::init()
 	lable->setPosition(visibleSize.width*0.5,visibleSize.height*0.7);
 	this->addChild(lable);
 
-	int player1 = UserDefault::sharedUserDefault()->getIntegerForKey("player1Score");
-	int player2 = UserDefault::sharedUserDefault()->getIntegerForKey("player2Score");
+	int player1 = UD_getInt("player1Score");
+	int player2 = UD_getInt("player2Score");
 	
 	auto * menuItem_1 = MenuItemLabel::create
 	(Label::createWithTTF("Back", "fonts/Marker Felt.ttf", 30), CC_CALLBACK_1(MutiPlayersGameOverLayer::menuCallBack, this));

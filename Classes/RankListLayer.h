@@ -19,17 +19,11 @@ public:
 	virtual bool init();
 	CREATE_FUNC(RankListLayer);
 
-	// 当滑动tableview时触发该方法 参数为当前的tableview对象  
-	virtual void scrollViewDidScroll(ScrollView* view) {};
-	// 当tableview被放大或缩小时触发该方法  参数为当前tableview对象  
-	virtual void scrollViewDidZoom(ScrollView* view) {}
-	// 当cell被点击时调用该方法 参数为当前的tableview对象与被点击的cell对象  
+	virtual void scrollViewDidScroll(ScrollView* view) {};  
+	virtual void scrollViewDidZoom(ScrollView* view) {} 
 	virtual void tableCellTouched(TableView* table, TableViewCell* cell);
-	// 设置tableview的Cell大小  
-	virtual Size tableCellSizeForIndex(TableView *table, ssize_t idx);
-	// 获取编号为idx的cell  
+	virtual Size tableCellSizeForIndex(TableView *table, ssize_t idx); 
 	virtual TableViewCell* tableCellAtIndex(TableView *table, ssize_t idx);
-	// 设置tableview中cell的个数  
 	virtual ssize_t numberOfCellsInTableView(TableView *table);
 
 	void menuCallBack(Ref* pSender);

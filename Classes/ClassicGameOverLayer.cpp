@@ -93,7 +93,7 @@ void ClassicGameOverLayer::menuCallBack(Ref * pSender)
 				break;
 			}
 		}
-
+		//ц╟ещеепР
 		if (!isExist) {
 			for(int i = 0; i < max_range; ++i) {
 				for (int j = max_range - i; j > 0; j--) {

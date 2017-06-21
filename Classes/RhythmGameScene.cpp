@@ -1,11 +1,8 @@
 #include "RhythmGameScene.h"
+#include "ListDefine.h"
 
 bool RhythmGameScene::init()
 {
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("musics/rhythm0.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("musics/rhythm1.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("musics/rhythm2.mp3");
-;
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
 	auto * background = Sprite::create("res/rhy.jpg");
@@ -27,7 +24,6 @@ bool RhythmGameScene::init()
 	auto * menuItem = MenuItemLabel::create
 	(Label::createWithTTF("Back", "fonts/Marker Felt.ttf", 30), CC_CALLBACK_1(RhythmGameScene::menuCallBackBack, this));
 	menuItem->setPosition(Vec2(visibleSize.width *0.1, visibleSize.height * 0.9));
-
 	auto menu = Menu::create(menuItem, NULL);
 	menu->setPosition(0, 0);
 	this->addChild(menu);
@@ -58,7 +54,9 @@ bool RhythmGameScene::init()
 
 void RhythmGameScene::menuCallBackBack(Ref * pSender)
 {
-	UserDefault::sharedUserDefault()->setBoolForKey(StringUtils::format("is_rhythm%d", m_iMusicID).c_str(), false);
+	for (int i = 0; i < 3; ++i) {
+		UD_setBool(StringUtils::format("is_rhythm%d", i).c_str(), false);
+	}
 	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
 	tsm->goStartScene();
 }
@@ -109,18 +107,20 @@ void RhythmGameScene::canClickFalse(float dt)
 void RhythmGameScene::gameOverAction()
 {
 	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-	UserDefault::sharedUserDefault()->setBoolForKey(StringUtils::format("is_rhythm%d", m_iMusicID).c_str(), false);
-	UserDefault::sharedUserDefault()->setIntegerForKey(StringUtils::format("rhythmScore%d", m_iMusicID).c_str(), m_gameLayer->getScore());
-	UserDefault::sharedUserDefault()->setIntegerForKey("musicID", m_iMusicID);
+	for (int i = 0; i < 3; ++i) {
+		UD_setBool(StringUtils::format("is_rhythm%d", i).c_str(), false);
+	}
+	UD_setInt(StringUtils::format("rhythmScore%d", m_iMusicID).c_str(), m_gameLayer->getScore());
+	UD_setInt("musicID", m_iMusicID);
 	if (m_gameLayer->getScore() >= UserDefault::sharedUserDefault()->getIntegerForKey(StringUtils::format("highScore%d", m_iMusicID).c_str())) {
-		UserDefault::sharedUserDefault()->setIntegerForKey(StringUtils::format("highScore%d", m_iMusicID).c_str(), m_gameLayer->getScore());
+		UD_setInt(StringUtils::format("highScore%d", m_iMusicID).c_str(), m_gameLayer->getScore());
 	}
 	tsm->goRhythmGameOverScene();
 }
 
 void RhythmGameScene::tableCellTouched(TableView * table, TableViewCell * cell)
 {
-	UserDefault::sharedUserDefault()->setBoolForKey(StringUtils::format("is_rhythm%d", cell->getIdx()).c_str(), true);
+	UD_setBool(StringUtils::format("is_rhythm%d", cell->getIdx()).c_str(), true);
 	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(StringUtils::format("musics/rhythm%d.mp3", cell->getIdx()).c_str(), true);
 	m_iMusicID = cell->getIdx();
 	schedule(schedule_selector(RhythmGameScene::undateRhytnm), myRhythm.at(cell->getIdx()), kRepeatForever, 0);

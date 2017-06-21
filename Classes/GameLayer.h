@@ -29,6 +29,7 @@ public:
 	void throwDown();
 	void startGame();
 	void setDelegate(GameLayerDelegate *delegate) { m_delegate = delegate; }
+	void clearLineAction();
 	int getScore() { return m_iScore; }
 	bool getGameCondition() { return m_bGameRun; }
 

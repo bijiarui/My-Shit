@@ -1,8 +1,8 @@
 #include "MultiPlayerScene.h"
+#include "ListDefine.h"
 
 bool MultiPlayerScene::init()
 {
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("musics/Tetris.mp3");
 	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("musics/Tetris.mp3", true);
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
@@ -27,7 +27,6 @@ bool MultiPlayerScene::init()
 	m_gameLayer1->setScale(0.8f);
 	m_gameLayer1->setPosition(-100, 10);
 	this->addChild(m_gameLayer1, 2);
-
 
 	m_gameLayer2 = GameLayer::create();
 	m_gameLayer2->setDelegate(this);
@@ -65,13 +64,10 @@ void MultiPlayerScene::menuCallBackBack(Ref * pSender)
 }
 void MultiPlayerScene::gameOverAction()
 {
-	
 	if (!m_gameLayer2->getGameCondition() && !m_gameLayer1->getGameCondition()) {
-			UserDefault::sharedUserDefault()->setIntegerForKey("player2Score", m_gameLayer2->getScore());
-			UserDefault::sharedUserDefault()->setIntegerForKey("player1Score", m_gameLayer1->getScore());
+			UD_setInt("player2Score", m_gameLayer2->getScore());
+			UD_setInt("player1Score", m_gameLayer1->getScore());
 			CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
 			tsm->goMuitiPlayerGameOverScene();
 	}
-	
-
 }

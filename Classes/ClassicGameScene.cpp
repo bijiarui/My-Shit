@@ -2,8 +2,7 @@
 
 bool ClassicGameScene::init()
 {
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("musics/Tetris.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("musics/Tetris.mp3", true);
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("musics/backgroundmusic.mp3", true);
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
 	auto * background = Sprite::create("res/bao.jpg");
@@ -37,12 +36,11 @@ bool ClassicGameScene::init()
 	this->addChild(menu2);
 
 	return true;
-
 }
 
 void ClassicGameScene::gameOverAction()
 {
-	UserDefault::sharedUserDefault()->setIntegerForKey("score", m_gameLayer->getScore());
+	UserDefault::sharedUserDefault()->setIntegerForKey("score",m_gameLayer->getScore());
 	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
 	tsm->goClassicGameOverScene();
 }
@@ -57,4 +55,3 @@ void ClassicGameScene::menuCallBackBack(Ref * pSender)
 	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
 	tsm->goStartScene();
 }
-

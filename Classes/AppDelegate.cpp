@@ -53,7 +53,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	}
 	director->getTextureCache()->addImage("res/tetris_next.png");
 	director->getTextureCache()->addImage("res/back.png");
-	director->getTextureCache()->addImage("res/BackGround.jpg");
     // turn on display FPS
     director->setDisplayStats(false);
 

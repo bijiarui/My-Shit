@@ -2,12 +2,7 @@
 
 bool GameLayer::init()
 {
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sounds/clean.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sounds/rotate.wav");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sounds/throwdown.wav");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sounds/Great.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sounds/Excellent.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sounds/Unbelievable.mp3");
+	
 	m_bGameRun = false;
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
@@ -29,6 +24,7 @@ bool GameLayer::init()
 			this->addChild(m_spriteBrickMatrix[r*m_iColumnTetris + c], 3);
 		}
 	}
+	//预览区
 	m_spriteNextBrick = new Sprite*[4 * 4];
 	for (int i = 0; i < 4; ++i) {
 		for (int j = 0; j < 4; ++j) {
@@ -70,28 +66,13 @@ void GameLayer::updateNextBrick()
 		}
 	}
 }
-
+//方块下落的逻辑实现
 void GameLayer::fall()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	if (!m_tetris->fallBrick())
 	{
-		int lineIndex = 0;
-		while (m_tetris->clearOneLine(lineIndex)) {
-			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("sounds/clean.mp3");
-			m_iScore += 100;
-			updateScore(m_iScore);
-			for(int i=0;i<3;++i){
-				if (m_iScore >= UserDefault::sharedUserDefault()->getIntegerForKey(StringUtils::format("highScore%d", i).c_str()) && UserDefault::sharedUserDefault()->getBoolForKey(StringUtils::format("is_rhythm%d", i).c_str())
-					&& UserDefault::sharedUserDefault()->getIntegerForKey(StringUtils::format("highScore%d", i).c_str()) != 0 && m_bCan ) {
-					auto plist = ParticleSystemQuad::create("particles/highScore.plist");
-					plist->setPosition(visibleSize.width*0.438, visibleSize.height *0.5);
-					this->addChild(plist, 5);
-					m_bCan == false;
-				}
-			}
-			GameLayer::initPartical(lineIndex);
-		}
+		this->clearLineAction();
 		// 下一个方块
 		if (!m_tetris->setNextBrick(m_tetris->getNextBrickType()))
 		{
@@ -103,6 +84,7 @@ void GameLayer::fall()
 	}
 	this->updateBrickMatrix();
 }
+//各种游戏操作的实现
 void GameLayer::moveLeft()
 {
 	if (m_bGameRun == true) {
@@ -135,37 +117,7 @@ void GameLayer::throwDown()
 	if (m_bGameRun == true) {
 		m_tetris->throwDownBrick();
 		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("sounds/throwdown.wav");
-		int lineIndex = 0;
-		int combo = 0;
-		while (m_tetris->clearOneLine(lineIndex)) {
-			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("sounds/clean.mp3");
-			++combo;
-			m_iScore += 100;
-			updateScore(m_iScore);
-			for (int i = 0; i < 3; ++i) {
-				if (m_iScore >= UserDefault::sharedUserDefault()->getIntegerForKey(StringUtils::format("highScore%d", i).c_str()) && UserDefault::sharedUserDefault()->getBoolForKey(StringUtils::format("is_rhythm%d", i).c_str())
-					&& UserDefault::sharedUserDefault()->getIntegerForKey(StringUtils::format("highScore%d", i).c_str()) != 0 && m_bCan) {
-					auto plist = ParticleSystemQuad::create("particles/highScore.plist");
-					plist->setPosition(visibleSize.width*0.438, visibleSize.height *0.5);
-					this->addChild(plist, 5);
-					m_bCan == false;
-				}
-			}
-			GameLayer::initPartical(lineIndex);
-		}
-		if (combo == 2) {
-			GameLayer::initCombo("particles/2X.plist");
-			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("sounds/Great.mp3");
-		}
-		else if (combo == 3) {
-			GameLayer::initCombo("particles/3X.plist");
-			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("sounds/Excellent.mp3");
-		}
-		else if (combo == 4) {
-			GameLayer::initCombo("particles/4X.plist");
-			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("sounds/Unbelievable.mp3");
-		}
-
+		this->clearLineAction();
 		if (!m_tetris->setNextBrick(m_tetris->getNextBrickType()))
 		{
 			m_bGameRun = false;
@@ -176,7 +128,7 @@ void GameLayer::throwDown()
 		this->updateNextBrick();
 	}
 }
-
+//改变游戏难度的方法
 float GameLayer::level()
 {
 	if (UserDefault::sharedUserDefault()->getBoolForKey("is_rhythm0")) {
@@ -223,6 +175,7 @@ void GameLayer::startGame()
 	this->updateBrickMatrix();
 	this->updateNextBrick();
 	this->stopAllActions();
+	//动作回调函数实现下落
 	CallFunc *callFunc = CallFunc::create([=] {
 		if (m_bGameRun) {
 			this->fall();
@@ -233,7 +186,7 @@ void GameLayer::startGame()
 	});
 	this->runAction(RepeatForever::create(Sequence::create(DelayTime::create(level()), callFunc, NULL)));
 }
-
+//添加和删除粒子特效的函数
 void GameLayer::initPartical(int r)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -263,4 +216,39 @@ void GameLayer::deleteCombo(float dt)
 {
 	this->removeChild(m_Combo, true);
 
+}
+//消除行后进行的动作
+void GameLayer::clearLineAction()
+{
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	int lineIndex = 0;
+	int combo = 0;
+	while (m_tetris->clearOneLine(lineIndex)) {
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("sounds/clean.mp3");
+		m_iScore += 100;
+		++combo;
+		updateScore(m_iScore);
+		for (int i = 0; i<3; ++i) {
+			if (m_iScore >= UserDefault::sharedUserDefault()->getIntegerForKey(StringUtils::format("highScore%d", i).c_str()) && UserDefault::sharedUserDefault()->getBoolForKey(StringUtils::format("is_rhythm%d", i).c_str())
+				&& UserDefault::sharedUserDefault()->getIntegerForKey(StringUtils::format("highScore%d", i).c_str()) != 0 && m_bCan) {
+				auto plist = ParticleSystemQuad::create("particles/highScore.plist");
+				plist->setPosition(visibleSize.width*0.438, visibleSize.height *0.7);
+				this->addChild(plist, 6);
+				m_bCan == false;
+			}
+		}
+		GameLayer::initPartical(lineIndex);
+	}
+	if (combo == 2) {
+		GameLayer::initCombo("particles/2X.plist");
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("sounds/Great.mp3");
+	}
+	else if (combo == 3) {
+		GameLayer::initCombo("particles/3X.plist");
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("sounds/Excellent.mp3");
+	}
+	else if (combo == 4) {
+		GameLayer::initCombo("particles/4X.plist");
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("sounds/Unbelievable.mp3");
+	}
 }

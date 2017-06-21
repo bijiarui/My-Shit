@@ -23,8 +23,8 @@ void SceneManager::goOpenScene() {
 	OpenLayer * layer = OpenLayer::create();
 	layer->tsm = this;
 	openScene->addChild(layer);
-
-	Director::getInstance()->replaceScene(openScene);
+	auto transitions = TransitionFade::create(0.4f, openScene);
+	Director::getInstance()->replaceScene(transitions);
 }
 
 void SceneManager::goStartScene() {
@@ -33,8 +33,8 @@ void SceneManager::goStartScene() {
 	StartLayer * layer = StartLayer::create();
 	layer->tsm = this;
 	startScene->addChild(layer);
-
-	Director::getInstance()->replaceScene(startScene);
+	auto transitions = TransitionFade::create(0.4f, startScene);
+	Director::getInstance()->replaceScene(transitions);
 
 }
 void SceneManager::goOptionScene()
@@ -43,16 +43,16 @@ void SceneManager::goOptionScene()
 	OptionLayer * layer = OptionLayer::create();
 	layer->tsm = this;
 	optionScene->addChild(layer);
-
-	Director::getInstance()->replaceScene(optionScene);
+	auto transitions = TransitionFade::create(0.4f, optionScene);
+	Director::getInstance()->replaceScene(transitions);
 }
 
 void SceneManager::goClassicGameScene()
 {
 	ClassicGameScene* classicGameScene = ClassicGameScene::create();
 	classicGameScene->tsm = this;
-
-	Director::getInstance()->replaceScene(classicGameScene);
+	auto transitions = TransitionFade::create(0.4f, classicGameScene);
+	Director::getInstance()->replaceScene(transitions);
 
 }
 
@@ -62,8 +62,8 @@ void SceneManager::goClassicGameOverScene()
 	ClassicGameOverLayer * layer = ClassicGameOverLayer::create();
 	layer->tsm = this;
 	classicGameOverScene->addChild(layer);
-
-	Director::getInstance()->replaceScene(classicGameOverScene);
+	auto transitions = TransitionFade::create(0.4f, classicGameOverScene);
+	Director::getInstance()->replaceScene(transitions);
 }
 
 void SceneManager::goRankListLayer()
@@ -72,16 +72,16 @@ void SceneManager::goRankListLayer()
 	RankListLayer * layer = RankListLayer::create();
 	layer->tsm = this;
 	rankListScene->addChild(layer);
-
-	Director::getInstance()->replaceScene(rankListScene);
+	auto transitions = TransitionFade::create(0.4f, rankListScene);
+	Director::getInstance()->replaceScene(transitions);
 }
 
 void SceneManager::goMuitiPlayerScene()
 {
 	MultiPlayerScene* multiPlayersScene = MultiPlayerScene::create();
 	multiPlayersScene->tsm = this;
-
-	Director::getInstance()->replaceScene(multiPlayersScene);
+	auto transitions = TransitionFade::create(0.4f, multiPlayersScene);
+	Director::getInstance()->replaceScene(transitions);
 }
 
 void SceneManager::goMuitiPlayerGameOverScene()
@@ -90,14 +90,16 @@ void SceneManager::goMuitiPlayerGameOverScene()
 	MutiPlayersGameOverLayer *layer = MutiPlayersGameOverLayer::create();
 	layer->tsm = this;
 	MuitiPlayerGameOverScene->addChild(layer);
-	Director::getInstance()->replaceScene(MuitiPlayerGameOverScene);
+	auto transitions = TransitionFade::create(0.4f, MuitiPlayerGameOverScene);
+	Director::getInstance()->replaceScene(transitions);
 }
 
 void SceneManager::goRhythmGameScene()
 {
 	RhythmGameScene* rhythmGmaeScene = RhythmGameScene::create();
 	rhythmGmaeScene->tsm = this;
-	Director::getInstance()->replaceScene(rhythmGmaeScene);
+	auto transitions = TransitionFade::create(0.4f, rhythmGmaeScene);
+	Director::getInstance()->replaceScene(transitions);
 }
 
 void SceneManager::goRhythmGameOverScene()
@@ -106,6 +108,6 @@ void SceneManager::goRhythmGameOverScene()
 	RhythmGameOverLayer * layer = RhythmGameOverLayer::create();
 	layer->tsm = this;
 	RhythmGameOverScene->addChild(layer);
-
-	Director::getInstance()->replaceScene(RhythmGameOverScene);
+	auto transitions = TransitionFade::create(0.4f, RhythmGameOverScene);
+	Director::getInstance()->replaceScene(transitions);
 }

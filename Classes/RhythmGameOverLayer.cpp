@@ -1,4 +1,5 @@
 #include "RhythmGameOverLayer.h"
+#include "ListDefine.h"
 
 bool RhythmGameOverLayer::init()
 {
@@ -28,9 +29,9 @@ bool RhythmGameOverLayer::init()
 	auto * labelHigtScore = Label::createWithTTF("High score is", "fonts/Marker Felt.ttf", 23);
 	labelHigtScore->setPosition(visibleSize.width *0.4, visibleSize.height * 3/5);
 	this->addChild(labelHigtScore);
-	m_iMusicID = UserDefault::sharedUserDefault()->getIntegerForKey("musicID");
-	int myScore = UserDefault::sharedUserDefault()->getIntegerForKey(StringUtils::format("rhythmScore%d", m_iMusicID).c_str());
-	int highScore = UserDefault::sharedUserDefault()->getIntegerForKey(StringUtils::format("highScore%d", m_iMusicID).c_str());
+	m_iMusicID = UD_getInt("musicID");
+	int myScore = UD_getInt(StringUtils::format("rhythmScore%d", m_iMusicID).c_str());
+	int highScore = UD_getInt(StringUtils::format("highScore%d", m_iMusicID).c_str());
 	CCString* strMyScore = CCString::createWithFormat("%d", myScore);
 	scoreItem = LabelTTF::create("0", "fonts/Marker Felt.ttf", 40);
 	scoreItem->setString(strMyScore->_string.c_str());
